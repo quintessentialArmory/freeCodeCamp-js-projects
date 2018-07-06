@@ -33,7 +33,7 @@ function checkCashRegister(price, cash, cid) {
   };
 
   // output drawer
-  let changeArray = [];
+  let changeDrawer = [];
   loop: for (let den of DENS) {
     if (change < den[1]) continue;
 
@@ -51,12 +51,12 @@ function checkCashRegister(price, cash, cid) {
         // take money from the drawer and save the rest
         inDrawer[1] = (m-n)/100;
         // put the taken money in the output drawer
-        changeArray.push([den[0], n/100]);
+        changeDrawer.push([den[0], n/100]);
       }
       else {
         change -= m;
         inDrawer[1] = 0; // empty the drawer
-        changeArray.push([den[0], m/100]);
+        changeDrawer.push([den[0], m/100]);
       }
       if (change == 0) break loop;
       continue loop;
@@ -65,7 +65,7 @@ function checkCashRegister(price, cash, cid) {
   if (change > 0) {
     // return everything to the drawer
     loop: for (let inDrawer of cid) {
-      for (let inChange of changeArray) {
+      for (let inChange of changeDrawer) {
         if (inChange[0] == inDrawer[0]) {
           inDrawer[1] += inChange[1];
           continue loop;
@@ -80,7 +80,7 @@ function checkCashRegister(price, cash, cid) {
 
   return {
     status: "OPEN",
-    change: changeArray
+    change: changeDrawer
   };
 }
 
